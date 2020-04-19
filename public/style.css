@@ -1,0 +1,160 @@
+@font-face {
+  font-family: "BonBon Regular";
+  src: url("fonts/Bonbon-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Cupcake";
+  src: url("fonts/CupcakePartyDemo-46xK.ttf") format("truetype");
+}
+
+.progress {
+  background-color: rgba(0, 0, 0, 0);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 4rem;
+  font-weight: 900;
+  background-image: url("bg_timer.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.progress-text {
+  color: black !important;
+}
+#countdown {
+  margin: 20px;
+  width: 200px;
+  height: 200px;
+  position: relative;
+}
+
+/* Make sure that the margins are okay */
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #333;
+}
+
+h3,
+h4 {
+  font-family: "Cupcake";
+}
+
+/* CSS for sliding background */
+.wrapper {
+  z-index: -100;
+  margin: 0 0;
+}
+
+.sliding-background {
+  position: fixed;
+  background: url("bg.jpg") repeat;
+  height: 1200%; /*for slide: 100%;*/
+  width: 100%; /*for slide: 5100px;*/
+  animation: slide2 40s linear infinite;
+}
+
+@keyframes slide {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+@keyframes slide2 {
+  0% {
+    transform: translate3d(0, -425px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+/*
+ * Bootstrap stuff
+ */
+
+.container {
+  margin: 0 0;
+}
+
+/* Most buttons essentially the same properties*/
+.button-special {
+  font-family: "Cupcake" !important;
+  font-weight: 900 !important;
+  font-size: 160% !important;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("buttonbg_base.PNG");
+  border-color: rgba(0, 0, 0, 1);
+  opacity: 0;
+  margin-bottom: 0.3em;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}
+
+button:enabled:hover,
+button:enabled:focus,
+button:enabled:active {
+  color: #696969 !important;
+}
+
+.btn {
+  margin-left: 30%;
+  width: 70%;
+}
+
+/*Except these*/
+.optionbutton {
+  margin-top: 0.5em;
+  margin-bottom: 0px;
+}
+
+/* Adjust image size and make it known that it's clickable */
+img {
+  max-height: 80% !important;
+  max-width: 80% !important;
+  margin-top: 1rem !important;
+}
+img:hover {
+  cursor: pointer;
+}
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.center-block:hover {
+  cursor: default;
+}
+
+/* Add borders to the table */
+table.table-bordered {
+  border: 1px solid black;
+  margin-top: 2rem !important;
+  margin-bottom: 0px !important;
+}
+table.table-bordered > thead > tr > th {
+  border: 1px solid black;
+}
+table.table-bordered > tbody > tr > td {
+  border: 1px solid black;
+}
+
+/* Text fields */
+.textBoxShrink {
+  display: inline-block;
+  padding: 0rem 0rem 0rem 0rem;
+}
+/* Old formatting tools */
+.rightalign {
+  left: 70%;
+}
+.centered {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  text-align: center;
+}
