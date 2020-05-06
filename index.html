@@ -1,0 +1,448 @@
+<!--
+  for hovers: onmouseover and onmouseout
+
+-->
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>
+      Cupcake Clicker
+    </title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:400,300,600,800,900"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/1.1.0/dist/progressbar.js"></script>
+    <script src="./public/script.js" type="text/javascript"></script>
+    <script type="text/javascript">
+      var earnInterval;
+      var bar;
+      window.addEventListener("load", function(ev) {
+        Game.Launch();
+        console.log(Game.timeUntilNight);
+        if (getCookie("cupcakes") != "") {
+          loadGameCookies();
+        } else {
+          saveGameCookies();
+        }
+        Game.UpdateUI();
+        earnInterval = window.setInterval(passiveEarn, 35);
+
+        var cupcake = document.getElementById("clickcupcake");
+        cupcake.addEventListener("mousedown", function(ev) {
+          document.getElementById("clickcupcake").src = "./public/images/cupcake2.png";
+        });
+        cupcake.addEventListener("mouseup", function(ev) {
+          document.getElementById("clickcupcake").src = "./public/images/cupcake.png";
+        });
+
+        SetupCountdown();
+        bar.set(Game.timeUntilNight / (5 * 60 * 1.0));
+        bar.animate(0.0, {}, cb);
+
+        Game.setupComplete = true;
+      });
+
+      $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+    <link rel="stylesheet" type="text/css" href="./public/css/style.css" />
+    <link rel="shortcut icon" href="./public/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./public/favicon.ico" type="image/x-icon" />
+  </head>
+
+  <body>
+    <div class="wrapper">
+      <div class="sliding-background"></div>
+    </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col-lg-10">
+          <div class="text-center" style="background-color: #0075BE;">
+            <div><h3 id="msg"></h3></div>
+            <div>
+              <h3 id="timer"></h3>
+            </div>
+          </div>
+        </div>
+        <div class="col"></div>
+      </div>
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="text-center" style="margin-top: 5em;font-weight: 900;">
+            <div class="textBoxShrink" style="background-color:burlywood">
+              <div>
+                <h4 id="cupcakes"></h4>
+              </div>
+              <div>
+                <h4 id="cps"></h4>
+              </div>
+            </div>
+            <img
+              class="img-fluid cupcakeimg"
+              id="clickcupcake"
+              src="./public/images/cupcake.png"
+              onclick="Game.Earn(1)"
+            />
+          </div>
+          <span>
+            <button
+              style="opacity:1;"
+              class="btn-sm btn-outline-dark optionbutton button-special"
+              data-toggle="modal"
+              data-target="#howToPlay"
+            >
+              How to Play
+            </button>
+            <button
+              style="opacity:1;"
+              class="btn-sm btn-outline-dark optionbutton button-special"
+              onclick="this.blur();Game.Reset()"
+            >
+              Reset Game
+            </button>
+          </span>
+        </div>
+        <div class="col-lg-4">
+          <div class="progress" id="countdown" style="margin-left: 30%;"></div>
+          <table
+            class="table table-bordered table-sm"
+            style="margin-top: 23% !important;background-color: #fce0b9;opacity: 1.0;"
+          >
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Cost</th>
+                <th scope="col">Cupcakes/Second</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Clicker</td>
+                <td id="clicker-count"></td>
+                <td id="clicker-cost"></td>
+                <td id="clicker-cps"></td>
+              </tr>
+              <tr>
+                <td>Grandma</td>
+                <td id="grandma-count"></td>
+                <td id="grandma-cost"></td>
+                <td id="grandma-cps"></td>
+              </tr>
+              <tr>
+                <td>Farm</td>
+                <td id="farm-count"></td>
+                <td id="farm-cost"></td>
+                <td id="farm-cps"></td>
+              </tr>
+              <tr>
+                <td>Mine</td>
+                <td id="mine-count"></td>
+                <td id="mine-cost"></td>
+                <td id="mine-cps"></td>
+              </tr>
+              <tr>
+                <td>Factory</td>
+                <td id="factory-count"></td>
+                <td id="factory-cost"></td>
+                <td id="factory-cps"></td>
+              </tr>
+              <tr>
+                <td>Bank</td>
+                <td id="bank-count"></td>
+                <td id="bank-cost"></td>
+                <td id="bank-cps"></td>
+              </tr>
+              <tr>
+                <td>Temple</td>
+                <td id="temple-count"></td>
+                <td id="temple-cost"></td>
+                <td id="temple-cps"></td>
+              </tr>
+              <tr>
+                <td>Wizard Tower</td>
+                <td id="wizardtower-count"></td>
+                <td id="wizardtower-cost"></td>
+                <td id="wizardtower-cps"></td>
+              </tr>
+              <tr>
+                <td>Shipment</td>
+                <td id="shipment-count"></td>
+                <td id="shipment-cost"></td>
+                <td id="shipment-cps"></td>
+              </tr>
+              <tr>
+                <td>Alchemy Lab</td>
+                <td id="alchemylab-count"></td>
+                <td id="alchemylab-cost"></td>
+                <td id="alchemylab-cps"></td>
+              </tr>
+              <tr>
+                <td>Portal</td>
+                <td id="portal-count"></td>
+                <td id="portal-cost"></td>
+                <td id="portal-cps"></td>
+              </tr>
+              <tr>
+                <td>Time Machine</td>
+                <td id="timemachine-count"></td>
+                <td id="timemachine-cost"></td>
+                <td id="timemachine-cps"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-lg-3" style="margin-top: 2em;">
+          <div class="rightalign">
+            <button
+              style="opacity:1;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks once every 10 seconds"
+              id="buyclicker"
+              onclick='this.blur();Game.Buy("clicker")'
+            >
+              Buy Clicker
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks once every second"
+              id="buygrandma"
+              onclick='this.blur();Game.Buy("grandma")'
+            >
+              Buy Grandma
+            </button>
+
+            <button
+              style="opacity: 0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 8 times a second"
+              id="buyfarm"
+              onclick='this.blur();Game.Buy("farm")'
+            >
+              Buy Farm
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 47 times a second"
+              id="buymine"
+              onclick='this.blur();Game.Buy("mine")'
+            >
+              Buy Mine
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 260 times a second"
+              id="buyfactory"
+              onclick='this.blur();Game.Buy("factory")'
+            >
+              Buy Factory
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 1,400 times a second"
+              id="buybank"
+              onclick='this.blur();Game.Buy("bank")'
+            >
+              Buy Bank
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 7,800 times a second"
+              id="buytemple"
+              onclick='this.blur();Game.Buy("temple")'
+            >
+              Buy Temple
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 44,000 times a second"
+              id="buywizardtower"
+              onclick='this.blur();Game.Buy("wizardtower")'
+            >
+              Buy Wizard Tower
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 260,000 times a second"
+              id="buyshipment"
+              onclick='this.blur();Game.Buy("shipment")'
+            >
+              Buy Shipment
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 1,600,000 times a second"
+              id="buyalchemylab"
+              onclick='this.blur();Game.Buy("alchemylab")'
+            >
+              Buy Alchemy Lab
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 10,000,000 times a second"
+              id="buyportal"
+              onclick='this.blur();Game.Buy("portal")'
+            >
+              Buy Portal
+            </button>
+
+            <button
+              style="opacity:0.65;"
+              class="btn btn-outline-dark btn-lg button-special"
+              data-toggle="tooltip"
+              data-placement="left"
+              title="Clicks 65,000,000 times a second"
+              id="buytimemachine"
+              onclick='this.blur();Game.Buy("timemachine")'
+            >
+              Buy Time Machine
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="modals">
+      <div
+        class="modal fade"
+        id="howToPlay"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="howToPlayLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="howToPlayLabel">
+                How to Play
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                onclick="blur();"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              The cupcake-hungry babies are coming in waves! To satisfy them you
+              need a certain amount of cupcakes so that they are full...for
+              now.<br /><br />
+              Click on the big cupcake in order to earn cupcakes. With enough
+              cupcakes you can buy a powerup that will automatically click for
+              you at a certain rate (displayed when the hovering over an
+              available powerup) <br /><br />
+              You can monitor how much each powerup is contributing to your
+              overall cupcakes per second and how much the powerup will cost on
+              the table.
+              <br /><br />
+              You have 5 minutes between each night (except the first night).
+              <br /><br />
+              <b>Good luck!</b>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="modal fade"
+        id="youLose"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="youLoseLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="youLoseLabel">
+                You lose :(
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+                onclick="blur();"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" id="youLoseText"></div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+                onclick="Game.Reset();"
+              >
+                Restart Game
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
