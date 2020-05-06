@@ -4,6 +4,7 @@
 -->
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>
       Cupcake Clicker
     </title>
@@ -20,7 +21,7 @@
       type="text/css"
     />
     <script src="https://cdn.rawgit.com/kimmobrunfeldt/progressbar.js/1.1.0/dist/progressbar.js"></script>
-    <script src="script.js" type="text/javascript"></script>
+    <script src="./script.js" type="text/javascript"></script>
     <script type="text/javascript">
       var earnInterval;
       var bar;
@@ -37,10 +38,10 @@
 
         var cupcake = document.getElementById("clickcupcake");
         cupcake.addEventListener("mousedown", function(ev) {
-          document.getElementById("clickcupcake").src = "cupcake2.png";
+          document.getElementById("clickcupcake").src = "./images/cupcake2.png";
         });
         cupcake.addEventListener("mouseup", function(ev) {
-          document.getElementById("clickcupcake").src = "cupcake.png";
+          document.getElementById("clickcupcake").src = "./images/cupcake.png";
         });
 
         SetupCountdown();
@@ -54,7 +55,7 @@
         $('[data-toggle="tooltip"]').tooltip();
       });
     </script>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="./css/style.css" />
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
   </head>
@@ -90,7 +91,7 @@
             <img
               class="img-fluid cupcakeimg"
               id="clickcupcake"
-              src="cupcake.png"
+              src="./images/cupcake.png"
               onclick="Game.Earn(1)"
             />
           </div>
